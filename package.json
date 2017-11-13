@@ -1,13 +1,14 @@
 {
   "name": "@wardrobe/swigbundle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Swig rendering bnudle for wardrobe",
   "main": "SwigBundle.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Yme-Jan Iedema <yme-jan@iedema.me>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wardrobejs/SwigBundle.git"
+  },
   "peerDependencies": {
     "@wardrobe/wardrobe": "2.x"
   },
