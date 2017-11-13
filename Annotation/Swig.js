@@ -1,7 +1,5 @@
 const parameters = require('get-parameter-names');
 
-const NotFoundHttpException = require('../../Wardrobe/Exception/NotFoundHttpException');
-
 class Swig
 {
     constructor (kernel) {
@@ -27,7 +25,7 @@ class Swig
         eval(`_class[data._metadata.method] = async (${params.join(', ')}) => {
             
             if (typeof template === 'undefined') {
-                throw new NotFoundHttpException('Unable to find "' + data.template + '" for rendering');
+                throw new Error('Unable to find "' + data.template + '" for rendering');
             }
 
             let parameters = await methodBody.apply(_class, [${params.join(', ')}]);

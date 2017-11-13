@@ -1,5 +1,3 @@
-const MethodNotImplementedException = require('../../Wardrobe/Exception/MethodNotImplementedException');
-
 class TokenParser
 {
     constructor ()
@@ -10,17 +8,17 @@ class TokenParser
 
     getTag ()
     {
-        throw new MethodNotImplementedException(this, 'getTag(): string');
+        throw new Error(this, 'getTag(): string');
     }
 
     parse ()
     {
-        throw new MethodNotImplementedException(this, 'parse(str, line, parser, types, options)');
+        throw new Error(this, 'parse(str, line, parser, types, options)');
     }
 
     compile ()
     {
-        throw new MethodNotImplementedException(this, 'compile(compiler, args, content, parents, options, blockName)');
+        throw new Error(this, 'compile(compiler, args, content, parents, options, blockName)');
     }
 
 }
