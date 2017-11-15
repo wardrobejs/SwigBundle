@@ -16,30 +16,24 @@ class Swig
         let _swig    = this._kernel.getContainer().get('swig');
         let _class   = this._kernel.getContainer().get(data._metadata.service);
 
-        const template = this._resolve(data);
-
         let methodBody = _class[data._metadata.method];
+
+        if(typeof methodBody.post_processors === 'undefined') {
+            methodBody.post_processors = [];
+        }
+
         let params     = parameters(methodBody);
 
+        const template = this._resolve(data);
+        methodBody.post_processors.push({
+            func: (template, args) => {
+                if(typeof args !== 'object') {
+                    throw new Error(`Unexpected return value. Expected {Object} got {${(typeof args).ucfirst()}}`);
+                }
 
-        eval(`_class[data._metadata.method] = async (${params.join(', ')}) => {
-            
-            if (typeof template === 'undefined') {
-                throw new Error('Unable to find "' + data.template + '" for rendering');
-            }
-
-            let parameters = await methodBody.apply(_class, [${params.join(', ')}]);
-
-            if (typeof parameters !== 'object') {
-                throw new Error('Invalid type returned from ' + _class.constructor.name);
-            }
-
-            return _swig.render(template, parameters);
-        };`);
-
-        Object.defineProperty(_class[data._metadata.method], 'name', {
-            writable: false,
-            value: data._metadata.method
+                return _swig.render(template, args);
+            },
+            args: [template]
         });
     }
 
