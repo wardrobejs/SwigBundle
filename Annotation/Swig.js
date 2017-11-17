@@ -22,8 +22,6 @@ class Swig
             methodBody.post_processors = [];
         }
 
-        let params     = parameters(methodBody);
-
         const template = this._resolve(data);
         methodBody.post_processors.push({
             func: (template, args) => {
@@ -33,6 +31,7 @@ class Swig
 
                 return _swig.render(template, args);
             },
+            'content-type': 'text/html',
             args: [template]
         });
     }
