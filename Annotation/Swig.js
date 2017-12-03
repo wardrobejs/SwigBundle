@@ -2,8 +2,9 @@ const parameters = require('get-parameter-names');
 
 class Swig
 {
-    constructor (kernel) {
+    constructor (kernel, event) {
         this._kernel = kernel;
+        this._event  = event;
     }
 
     compile (data)
@@ -18,21 +19,9 @@ class Swig
 
         let methodBody = _class[data._metadata.method];
 
-        if(typeof methodBody.post_processors === 'undefined') {
-            methodBody.post_processors = [];
-        }
-
         const template = this._resolve(data);
-        methodBody.post_processors.push({
-            func: (template, args) => {
-                if(typeof args !== 'object') {
-                    throw new Error(`Unexpected return value. Expected {Object} got {${(typeof args).ucfirst()}}`);
-                }
-
-                return _swig.render(template, args);
-            },
-            'content-type': 'text/html',
-            args: [template]
+        this._event.on('before:render', (data) => {
+            data.data = _swig.render(template, data.data);
         });
     }
 

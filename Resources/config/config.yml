@@ -19,3 +19,4 @@ services:
         tags: ['annotation']
         arguments:
             - '@kernel'
+            - '@event'
